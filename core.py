@@ -11,7 +11,7 @@ def getData(data):
         case 'set':
             setAnime(data, connection)
         case 'search':
-            pass
+            searchAnime(data, connection)
         case 'list':
             pass
     utils.closeConnection(connection)
@@ -49,3 +49,13 @@ def setAnime(data, connection):
     connection.commit()
     #Cambiar el print a info.log
     print('El estado del anime se ha actualizado correctamente.')
+
+def searchAnime(data, connection):
+    # Mejorar output 
+    cursor = connection.cursor()
+    cursor.execute('select * from animes where title = ?', (data['title'],))
+    item = cursor.fetchone()
+    if not item:
+        print('No existe ningún item con ese titulo.')
+        return
+    print(f'\nID: {item[0]}\nTitulo: {item[1]}\nEpisodios: {item[2]}\nEpisodios vistos: {item[3]}\nEstado: {item[4]}\nNotas: {item[5]}\nEmpezado el: {item[6]}\nTerminado el: {item[7]}\n')
