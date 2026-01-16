@@ -9,7 +9,7 @@ def getData(data):
         case 'watch':
             watchAnime(data, connection)
         case 'set':
-            pass
+            setAnime(data, connection)
         case 'search':
             pass
         case 'list':
@@ -39,3 +39,13 @@ def watchAnime(data, connection):
     connection.commit()
     # Cambiar el print a info.log 
     print('Anime actualizado correctamente.')
+
+def setAnime(data, connection):
+    cursor = connection.cursor()
+    status_list = ['plan_to_watch', 'watching', 'completed', 'dropped']
+    if  not data['status'] or (data['status'] not in status_list):
+        data['status'] = 'plan_to_watch'
+    cursor.execute('update animes set status = ? where title = ?', (data['status'], data['title']))
+    connection.commit()
+    #Cambiar el print a info.log
+    print('El estado del anime se ha actualizado correctamente.')
