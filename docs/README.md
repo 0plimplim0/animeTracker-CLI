@@ -9,5 +9,7 @@ Es un programa CLI para trackear animes de forma local.
     ```
     git clone https://github.com/0plimplim0/animeTracker-CLI
     ```
+3. Crear la carpeta **/logs/**
+4. Ejecutar el programa.
 
 ## Roadmap

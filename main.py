@@ -3,8 +3,8 @@ import core
 import logging
 import argparse
 
-utils.init_db()
-utils.init_logs()
+utils.initDb()
+utils.initLogs()
 
 parser = argparse.ArgumentParser()
 actions = parser.add_mutually_exclusive_group()
@@ -64,8 +64,7 @@ try:
                 'action': 'list',
                 'status': args.anime_status
             }
-
-    core.get_data(data)
+    core.getData(data)
 except Exception as e:
     logging.error(e)
     print('Ha ocurrido un error.\nMás información en /logs/error.log')

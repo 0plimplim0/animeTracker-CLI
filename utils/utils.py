@@ -2,13 +2,13 @@ import os
 import sqlite3
 import logging
 
-def clear_console():
+def clearConsole():
     if (os.name == 'nt'):
         os.system('cls')
     else:
         os.system('clear')
 
-def print_banner():
+def printBanner():
     banner = r'''
     _    _   _  ___  __  __ _____    _____ ____      _    ____ _  __ _____ ____ 
    / \  | \ | ||_ _||  \/  | ____|  |_   _|  _ \    / \  / ___| |/ /| ____|  _ \ 
@@ -18,13 +18,22 @@ def print_banner():
     '''
     print(banner)
 
-def init_db():
+def initDb():
     connection = sqlite3.connect('./data/database.sqlite')
     with open('./data/schema.sql', 'r') as schema:
         connection.executescript(schema.read())
     connection.commit()
     connection.close()
 
-def init_logs():
+def initLogs():
+    if not os.path.isdir('./logs'):
+        os.mkdir('./logs/')
     filename = './logs/error.log'
     logging.basicConfig(filename=filename, level=logging.ERROR, format='%(asctime)s:%(levelname)s:%(message)s')
+
+def getConnection():
+    connection = sqlite3.connect('./data/database.sqlite')
+    return connection
+
+def closeConnection(connection):
+    connection.close
