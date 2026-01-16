@@ -1,4 +1,6 @@
 import os
+import sqlite3
+import logging
 
 def clear_console():
     if (os.name == 'nt'):
@@ -15,3 +17,14 @@ def print_banner():
 /_/   \_\_| \_||___||_|  |_|_____|    |_| |_| \_\/_/   \_\____|_|\_\|_____|_| \_\
     '''
     print(banner)
+
+def init_db():
+    connection = sqlite3.connect('./data/database.sqlite')
+    with open('./data/schema.sql', 'r') as schema:
+        connection.executescript(schema.read())
+    connection.commit()
+    connection.close()
+
+def init_logs():
+    filename = './logs/error.log'
+    logging.basicConfig(filename=filename, level=logging.ERROR, format='%(asctime)s:%(levelname)s:%(message)s')
