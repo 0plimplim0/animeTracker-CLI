@@ -13,7 +13,7 @@ def getData(data):
         case 'search':
             searchAnime(data, connection)
         case 'list':
-            pass
+            listAnimes(data, connection)
     utils.closeConnection(connection)
 
 def addAnime(data, connection):
@@ -59,3 +59,17 @@ def searchAnime(data, connection):
         print('No existe ningún item con ese titulo.')
         return
     print(f'\nID: {item[0]}\nTitulo: {item[1]}\nEpisodios: {item[2]}\nEpisodios vistos: {item[3]}\nEstado: {item[4]}\nNotas: {item[5]}\nEmpezado el: {item[6]}\nTerminado el: {item[7]}\n')
+
+def listAnimes(data, connection):
+    # Mejorar output
+    cursor = connection.cursor()
+    status_list = ['plan_to_watch', 'watching', 'completed', 'dropped']
+    if  not data['status'] or (data['status'] not in status_list):
+        data['status'] = 'plan_to_watch'
+    cursor.execute('select * from animes where status = ?', (data['status'],))
+    animes = cursor.fetchall()
+    if not animes:
+        print("No existe ningún anime con ese estado asignado.")
+        return
+    for anime in animes:
+        print(f'\nID: {anime[0]}\nTitulo: {anime[1]}\nEpisodios: {anime[2]}\nEpisodios vistos: {anime[3]}\nEstado: {anime[4]}\nNotas: {anime[5]}\nEmpezado el: {anime[6]}\nTerminado el: {anime[7]}\n')
