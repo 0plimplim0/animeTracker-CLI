@@ -2,21 +2,13 @@ import os
 import sqlite3
 import logging
 
-def clearConsole():
-    if (os.name == 'nt'):
-        os.system('cls')
-    else:
-        os.system('clear')
-
-def printBanner():
-    banner = r'''
+banner = r'''
     _    _   _  ___  __  __ _____    _____ ____      _    ____ _  __ _____ ____ 
    / \  | \ | ||_ _||  \/  | ____|  |_   _|  _ \    / \  / ___| |/ /| ____|  _ \ 
   / _ \ |  \| | | | | |\/| |  _|      | | | |_) |  / _ \| |   | ' / |  _| | |_) |
  / ___ \| |\  | | | | |  | | |___     | | |  _ <  / ___ \ |___| . \ | |___|  _ < 
 /_/   \_\_| \_||___||_|  |_|_____|    |_| |_| \_\/_/   \_\____|_|\_\|_____|_| \_\
-    '''
-    print(banner)
+'''
 
 def initDb():
     connection = sqlite3.connect('./data/database.sqlite')
@@ -36,4 +28,4 @@ def getConnection():
     return connection
 
 def closeConnection(connection):
-    connection.close
+    connection.close()

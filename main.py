@@ -6,7 +6,10 @@ import argparse
 utils.initDb()
 utils.initLogs()
 
-parser = argparse.ArgumentParser()
+parser = argparse.ArgumentParser(
+    description=utils.banner,
+    formatter_class=argparse.RawTextHelpFormatter
+)
 actions = parser.add_mutually_exclusive_group()
 advanced_options = parser.add_argument_group('Opciones avanzadas')
 

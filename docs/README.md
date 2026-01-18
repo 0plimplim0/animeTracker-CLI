@@ -34,7 +34,6 @@ Es un programa CLI para trackear los animes que ves de forma local desde la term
 ### v1.1
 - Mejoras visuales en el output.
 - Mejor manejo y formato de logs.
-- Documentacion de uso completa.
 ### v1.2
 - Comandos nuevos: delete, edit, export, import.
 - Sistema de stats para métricas generales.
