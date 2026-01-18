@@ -4,7 +4,7 @@ import logging
 import argparse
 
 utils.initDb()
-utils.initLogs()
+logger = utils.initLogs()
 
 parser = argparse.ArgumentParser(
     description=utils.banner,
@@ -15,10 +15,10 @@ advanced_options = parser.add_argument_group('Opciones avanzadas')
 
 # Opciones utilitarias
 parser.add_argument('-v', '--version', action='version', version='AnimeTracker-CLI v1.0.0', help='Muestra la version del programa.')
-# Opciones generales [Operaciones]
+# Opciones generales [Acciones]
 actions.add_argument('-a', '--add', dest='action', action='store_const', const='add', help='Agrega un anime a la base de datos.')
 actions.add_argument('-w', '--watch', dest='action', action='store_const', const='watch', help='Avanza el contador de episodios "n" veces.')
-actions.add_argument('-s', '--set', dest='action', action='store_const', const='set', help='Establece el estado actual del anime ingresado.')
+actions.add_argument('-s', '--set', dest='action', action='store_const', const='set', help='Establece el estado actual del anime ingresado. (plan_to_watch | watching | completed | dropped)')
 actions.add_argument('-f', '--search', dest='action', action='store_const', const='search', help='Busca en la base de datos un anime con el titulo ingresado.')
 actions.add_argument('-l', '--list', dest='action', action='store_const', const='list', help='Muestra todos los animes en la base de datos con el estado especificado.')
 #Opciones avanzadas [Data]
@@ -67,7 +67,10 @@ try:
                 'action': 'list',
                 'status': args.anime_status
             }
-    core.getData(data)
+    if not action:
+        parser.print_help()
+    else:
+        core.getData(data)
 except Exception as e:
-    logging.error(e)
+    logger.error(e)
     print('Ha ocurrido un error.\nMás información en /logs/error.log')

@@ -20,8 +20,23 @@ def initDb():
 def initLogs():
     if not os.path.isdir('./logs'):
         os.mkdir('./logs/')
-    filename = './logs/error.log'
-    logging.basicConfig(filename=filename, level=logging.ERROR, format='%(asctime)s:%(levelname)s:%(message)s')
+
+    errorFile = './logs/error.log'
+    infoFile = './logs/info.log'
+
+    logger = logging.Logger('Logger', level=logging.DEBUG)
+    formatter = logging.Formatter('%(asctime)s:%(levelname)s:%(message)s')
+
+    errors = logging.FileHandler(errorFile)
+    errors.setLevel(logging.ERROR)
+    errors.setFormatter(formatter)
+    logger.addHandler(errors)
+    infos = logging.FileHandler(infoFile)
+    infos.setLevel(logging.INFO)
+    infos.setFormatter(formatter)
+    logger.addHandler(infos)
+
+    return logger
 
 def getConnection():
     connection = sqlite3.connect('./data/database.sqlite')

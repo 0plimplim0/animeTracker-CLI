@@ -1,5 +1,7 @@
 from utils import utils
 
+logger = utils.initLogs()
+
 def getData(data):
     connection = utils.getConnection()
     action = data['action']
@@ -24,10 +26,8 @@ def addAnime(data, connection):
         data['status'] = 'plan_to_watch'
     cursor.execute('insert into animes(title, episodes, status, notes, started_at, finished_at) values(?, ?, ?, ?, ?, ?)', (data['title'], data['episodes'], data['status'], data['notes'], data['started_at'], data['finished_at']))
     connection.commit()
-    # Cambiar el print a info.log 
-    print("El anime se ha agregado correctamente.")
-
-def watchAnime(data, connection):
+    logger.info('El anime se ha agregado correctamente.')
+def watchAnime(data, connection, ):
     if (data['num'] < 1):
         print('Argumentos inválidos.')
         return
@@ -37,8 +37,7 @@ def watchAnime(data, connection):
     new = current[0] + data['num']
     cursor.execute('update animes set current_episode = ? where title = ?', (new, data['title']))
     connection.commit()
-    # Cambiar el print a info.log 
-    print('Anime actualizado correctamente.')
+    logger.info('El anime se ha actualizado correctamente.')
 
 def setAnime(data, connection):
     cursor = connection.cursor()
@@ -47,11 +46,9 @@ def setAnime(data, connection):
         data['status'] = 'plan_to_watch'
     cursor.execute('update animes set status = ? where title = ?', (data['status'], data['title']))
     connection.commit()
-    #Cambiar el print a info.log
-    print('El estado del anime se ha actualizado correctamente.')
+    logger.info('El estado del anime se ha actualizado correctamente.')
 
 def searchAnime(data, connection):
-    # Mejorar output 
     cursor = connection.cursor()
     cursor.execute('select * from animes where title = ?', (data['title'],))
     item = cursor.fetchone()
@@ -61,7 +58,6 @@ def searchAnime(data, connection):
     print(f'\nID: {item[0]}\nTitulo: {item[1]}\nEpisodios: {item[2]}\nEpisodios vistos: {item[3]}\nEstado: {item[4]}\nNotas: {item[5]}\nEmpezado el: {item[6]}\nTerminado el: {item[7]}\n')
 
 def listAnimes(data, connection):
-    # Mejorar output
     cursor = connection.cursor()
     status_list = ['plan_to_watch', 'watching', 'completed', 'dropped']
     if  not data['status'] or (data['status'] not in status_list):
