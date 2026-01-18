@@ -1,6 +1,5 @@
 from utils import utils
-
-logger = utils.initLogs()
+from main import logger
 
 def getData(data):
     connection = utils.getConnection()
@@ -27,6 +26,7 @@ def addAnime(data, connection):
     cursor.execute('insert into animes(title, episodes, status, notes, started_at, finished_at) values(?, ?, ?, ?, ?, ?)', (data['title'], data['episodes'], data['status'], data['notes'], data['started_at'], data['finished_at']))
     connection.commit()
     logger.info('El anime se ha agregado correctamente.')
+
 def watchAnime(data, connection, ):
     if (data['num'] < 1):
         print('Argumentos inválidos.')
@@ -34,6 +34,9 @@ def watchAnime(data, connection, ):
     cursor = connection.cursor()
     cursor.execute('select current_episode from animes where title = ?', (data['title'],))
     current = cursor.fetchone()
+    if not current:
+        print('No existe ningún anime con ese titulo.')
+        return
     new = current[0] + data['num']
     cursor.execute('update animes set current_episode = ? where title = ?', (new, data['title']))
     connection.commit()

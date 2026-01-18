@@ -1,8 +1,9 @@
-# AnimeTracker-CLI v1.0
+# AnimeTracker-CLI v1.1
 
 ## Estado del proyecto
 
-En desarrollo activo. Version 1.0 estable.
+Version 1.1 estable. Desarrollo pausado.
+
 ## Qué es?
 Es un programa CLI para trackear los animes que ves de forma local desde la terminal.
 
